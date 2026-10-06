@@ -20,7 +20,7 @@ def app(environ, start_response):
     else:
         response = Response(body="<h1>Страница не найдена</h1>", status="404 Not Found")
 
-    print(request.query)
+    # print(request.query)
 
     return response.to_wsgi(start_response)
     
