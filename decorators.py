@@ -10,8 +10,8 @@ def  route(path, method="GET"):
     def wrapper(func):
         """Внутренняя функция, которая получает декорируемую функцию."""
 
-        func.route_path = path
-        func.route_method = method.upper()
+        func._route_path = path
+        func._route_method = method.upper()
 
         return func
 

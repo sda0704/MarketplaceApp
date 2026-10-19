@@ -1,5 +1,3 @@
-from urllib.parse import parse_qs
-
 class Request:
     """Хранит данные запроса: метод, путь и query-параметры"""
 
@@ -14,7 +12,17 @@ class Request:
         query_string = environ.get("QUERY_STRING", "")
 
         # Превращение значения после "?" в словарь
-        self.query = parse_qs(query_string)
+        self.query = {}
+
+        if query_string:
+            for pair in query_string.split("&"):
+                key, _, value = pair.partition("=")
+
+                if key not in self.query:
+                    self.query[key] = []
+
+                self.query[key].append(value)
+        
 
     def get(self, key, default=None):
         """Возвращает первый query-параметр по имени"""
