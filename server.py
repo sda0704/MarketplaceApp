@@ -1,6 +1,10 @@
 from wsgiref.simple_server import make_server
 
+from database import init_db, seed_db
 from router import Router
+
+init_db()
+seed_db()
 
 router = Router()
 router.register_all()

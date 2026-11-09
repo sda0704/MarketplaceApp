@@ -31,8 +31,10 @@ class Router:
     def register_all(self):
         """Регистрирует все контроллеры приложения."""
         from controllers.home_controller import HomeController
+        from controllers.product_controller import ProductController
 
         self.register(HomeController)
+        self.register(ProductController)
 
     def handle(self, environ, start_response):
         """Обрабатывает запрос: находит маршрут и вызывает контроллер.
