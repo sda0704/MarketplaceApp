@@ -45,6 +45,26 @@ class Router:
         """
         request = Request(environ)
 
+        # Разбиваем путь на части.
+        # Превращает /product/5 в ["", "product": "5"]
+        parts = request.path.split("/")
+        
+        if (
+            request.method == "GET"
+            and len(parts) == 3
+            and parts[1] == "product"
+            and parts[2].isascii()
+            and parts[2].isdigit()
+        ):
+            from controllers.product_controller import ProductController
+            
+            product_id = int(parts[2])
+            
+            controller = ProductController(request)
+            response = controller.detail(product_id)
+            
+            return response.to_wsgi(start_response)
+
         # Пробегаем по таблице маршрутов и ищем подходящий.
         for path, http_method, controller_class, action_name in self.routes:
             if path == request.path and http_method == request.method:

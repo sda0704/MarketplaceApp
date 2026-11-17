@@ -1,36 +1,50 @@
-from database import get_connection
+from database import get_connection;
 
 def get_all():
-    """Получает все продукты."""
+    """Получает все товары"""
     connection = get_connection()
     
-    rows = connection.execute(
-        "SELECT id, name, description, price, category_id FROM products"
-    ).fetchall()
-    
-    connection.close()
-    return rows
+    try:
+        return connection.execute(
+            """
+            SELECT id, name, description, price, category_id
+            FROM products
+            ORDER BY id
+            """
+        ).fetchall()
+    finally:
+        connection.close()
+        
 
 def get_by_id(product_id):
-    """Получает продукт по идентификатору."""
+    """Получает товар по Id. Возвращает None, если товар не найден"""
     connection = get_connection()
     
-    row = connection.execute(
-        "SELECT id, name, description, price, category_id FROM products WHERE id = ?",
-        (product_id)
-    ).fetchone()
-    
-    connection.close()
-    return row
-
+    try:
+        return connection.execute(
+               """
+            SELECT id, name, description, price, category_id
+            FROM products
+            WHERE id = ?
+            """,
+            (product_id,),
+        ).fetchone()
+    finally:
+        connection.close()
+        
 def get_by_category(category_id):
-    """Получает все продукты из категории."""
+    """Получает товары выбранной категории"""
     connection = get_connection()
     
-    rows = connection.execute(
-       "SELECT id, name, description, price, category_id FROM products WHERE category_id = ?",
-       (category_id)
-    ).fetchall()
-    
-    connection.close()
-    return rows
+    try:
+        return connection.execute(
+            """
+            SELECT id, name, description, price, category_id
+            FROM products
+            WHERE category_id = ?
+            ORDER BY id
+            """,
+            (category_id,),
+        ).fetchall()
+    finally:
+        connection.close()
