@@ -13,30 +13,15 @@ class ProductController(BaseController):
         """Страница со списком всех товаров."""
         products = product_model.get_all()
 
-        cards = ""
-        for p in products:
-            product_id = p["id"]
-            name = p["name"]
-            description = p["description"]
-            price = p["price"]
-
-            cards += f"""
-                <div class="card">
-                    <h3>
-                        <a href="/product/{product_id}">{name}</a>
-                    </h3>
-                    <p>{description}</p>
-                    <p><b>{price} ₽</b></p>
-                </div>
-            """
-
-        content = f"""
-            <h1>Каталог товаров</h1>
-            <div class="products">{cards}</div>
-        """
-
+        env = {
+            "products": products
+        }   
+        
+        content = self.render("products.html", env)
         page = self.build_page("Каталог", content)
-        return self.html(page)
+        
+        return self.html(page)   
+
     
     def detail(self, product_id):
         """Показывает страницу одного товара"""

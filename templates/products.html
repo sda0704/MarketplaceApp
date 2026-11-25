@@ -1,0 +1,14 @@
+<h1>Каталог товаров</h1>
+
+<div class="products">
+    {{ for p in products }}
+        <div class="card">
+            <h3>
+                <a href="/product/{{ p.id }}">{{ p.name }}</a>
+            </h3>
+
+            <p>{{ p.description }}</p>
+            <p><b>{{ p.price }} ₽</b></p>
+        </div>
+    {{ endfor }}
+</div>
